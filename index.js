@@ -1,7 +1,9 @@
 var $ = mdui.$;
 
 const API = "https://fc-resource-node-api.pbox.cloud/api/v1/pan/search?";
-const DETAIL_API = "https://www.dalipan.com/#/main/detail/{0}?keyword=";
+const DETAIL_API = "https://fc-resource-node-api.pbox.cloud/api/v1/pan/detail?id={0}";
+const URL_API = "https://fc-resource-node-api.pbox.cloud/api/v1/pan/url?t={0}&id={1}";
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlvbmlkIjoib1RJWk02QWg2cTFMZWc5ZGNxSmEzRkJ6bnE1WSIsImlhdCI6MTY4OTMxOTkxNywiZXhwIjoxNjg5OTI0NzE3fQ.kElpf5WYH3KJ_2jrxCR1EWtWxj79-FiW6yksjxso-b4'
 const SEARCH_VERSION = "v2";
 const FILTER_ITEMS = [
     [".filter-source", "resType"],
@@ -26,7 +28,7 @@ var resource_html = "";
     resource_html += "<div class=\"resource-card fl-center\">\n";
     resource_html += "  <i class=\"mdui-icon material-icons\">{0}<\/i>\n";
     resource_html += "  <div class=\"resource-info\">\n";
-    resource_html += "    <a class=\"mdui-typo-title\" href=\"{4}\" target=\"_blank\">{1}<\/a>\n";
+    resource_html += "    <a class=\"mdui-typo-title\" href=\"javascript:UrlJump('{4}');\">{1}<\/a>\n";
     resource_html += "    <div class=\"mdui-typo\">\n";
     resource_html += "      <pre>{2}<\/pre>\n";
     resource_html += "    <\/div>\n";
@@ -109,6 +111,51 @@ function load_more(){
     $(".load-more").remove();
 }
 
+function UrlJump(id){
+    mdui.snackbar({
+        message: '正在获取链接...',
+        position: 'right-top',
+        timeout: 3000
+    });
+    $.ajax({
+        method: 'GET',
+        url: DETAIL_API.format(id),
+        success: function (data) {
+            data = JSON.parse(data);
+            var haspwd = data.haspwd;
+            var pwd = (haspwd)?data.pwd:null;
+            var t = (new Date).getTime();
+
+            $.ajax({
+                method: 'GET',
+                url: URL_API.format(t, id),
+                headers: {
+                    "X-Authorization": TOKEN
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    var url = (pwd)?data.data + "?pwd=" + pwd:data.data;
+                    window.open(url);
+                },
+                error: function (xhr, textStatus) {
+                    mdui.snackbar({
+                        message: '请求错误:' + textStatus,
+                        position: 'right-bottom',
+                        timeout: 3000
+                    });
+                }
+            });
+        },
+        error: function (xhr, textStatus) {
+            mdui.snackbar({
+                message: '请求错误:' + textStatus,
+                position: 'right-bottom',
+                timeout: 3000
+            });
+        }
+    });
+}
+
 function _search(params){
     $.ajax({
         method: 'GET',
@@ -129,7 +176,7 @@ function _search(params){
                         res.res.filename,
                         res["highs"]["filelist.filename"].join("\n"),
                         res.res.utime,
-                        DETAIL_API.format(res.res.id)
+                        res.res.id
                     ));
                 });
                 $(".resource").append(load_more_html);
