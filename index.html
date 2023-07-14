@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <link rel="shortcut icon" href="https://i2.100024.xyz/2023/07/13/ndi0xr.webp
+    " type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <link rel="stylesheet" href="./style.css">
+    <title>Lipanso</title>
+  </head>
+  <body class="mdui-theme-primary-blue mdui-theme-accent-light-blue mdui-theme-layout-auto">
+
+    <div class="mdui-progress search-progress">
+        <div class="mdui-progress-indeterminate"></div>
+    </div>
+    
+    <div class="body">
+        <div class="logo">
+            <p class="title"><i class="mdui-icon material-icons">cloud_circle</i>Lipanso</p>
+        </div>
+        <div class="filter fl-center">
+            <div class="mdui-typo-title">筛选：</div>
+            <!--resType-->
+            <select class="mdui-select filter-source" mdui-select>
+                <option value="baidu">百度网盘</option>
+                <option value="aliyundrive">阿里云盘</option>
+                <option value="quark">夸克网盘</option>
+            </select>
+            <!--searchType-->
+            <select class="mdui-select filter-item" mdui-select>
+                <option value="None">系统默认</option>
+                <option value="precise">精确搜索</option>
+                <option value="match">模糊搜索</option>
+            </select>
+            <!--category-->
+            <select class="mdui-select filter-type" mdui-select>
+                <option value="None">全部类型</option>
+                <option value="0">文件夹</option>
+                <option value="1">视频</option>
+                <option value="2">音乐</option>
+                <option value="3">图片</option>
+                <option value="4">文档</option>
+                <option value="5">软件</option>
+                <option value="6">压缩包</option>
+                <option value="7">BT种子</option>
+            </select>
+            <!--minSize&maxSize-->
+            <select class="mdui-select filter-size" mdui-select>
+                <option value="None">全部大小</option>
+                <option value="1,20971520">小于20MB</option>
+                <option value="20971520,209715200">20MB-200MB</option>
+                <option value="209715200,2147483648">200MB-2GB</option>
+                <option value="2147483648,1099511627776">大于2GB</option>
+            </select>
+        </div>
+        <div class="search fl-center">
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input search-input" type="text" placeholder="请输入资源名称"/>
+            </div>
+            <button class="mdui-btn mdui-btn-icon mdui-ripple search-btn">
+                <i class="mdui-icon material-icons">search</i>
+            </button>
+        </div>
+
+        <div class="resource">
+            
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
