@@ -15,7 +15,7 @@ html, body {
     height: 100%;
 }
 body {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.5;
 
     -moz-user-select: none;
@@ -75,4 +75,16 @@ a {
 }
 a:hover {
     text-decoration: underline;
+}
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 13px!important;
+    }
+    .resource {
+        margin: 2rem 1rem;
+    }
 }
