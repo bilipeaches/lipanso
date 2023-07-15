@@ -1,8 +1,11 @@
 var $ = mdui.$;
 
-const API = "https://fc-resource-node-api.pbox.cloud/api/v1/pan/search?";
-const DETAIL_API = "https://fc-resource-node-api.pbox.cloud/api/v1/pan/detail?id={0}";
-const URL_API = "https://fc-resource-node-api.pbox.cloud/api/v1/pan/url?t={0}&id={1}";
+const API = "https://fc-resource-node-api.pbox.cloud/";
+const API_INDEX = {
+    "search": "api/v1/pan/search?",
+    "detail": "api/v1/pan/detail?id={0}",
+    "url": "api/v1/pan/url?t={0}&id={1}"
+}
 const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlvbmlkIjoib1RJWk02QWg2cTFMZWc5ZGNxSmEzRkJ6bnE1WSIsImlhdCI6MTY4OTMxOTkxNywiZXhwIjoxNjg5OTI0NzE3fQ.kElpf5WYH3KJ_2jrxCR1EWtWxj79-FiW6yksjxso-b4'
 const SEARCH_VERSION = "v2";
 const FILTER_ITEMS = [
@@ -76,6 +79,10 @@ $(".search-btn").on("click", _on_search_btn_clicked);
 $(".search-progress").hide();
 $(".resource").hide();
 
+function get_api(index){
+    return API + API_INDEX[index];
+}
+
 function _on_search_btn_clicked(){
     $(".search-progress").show();
     $(".resource").hide();
@@ -119,7 +126,7 @@ function UrlJump(id){
     });
     $.ajax({
         method: 'GET',
-        url: DETAIL_API.format(id),
+        url: get_api("detail").format(id),
         success: function (data) {
             data = JSON.parse(data);
             var haspwd = data.haspwd;
@@ -128,7 +135,7 @@ function UrlJump(id){
 
             $.ajax({
                 method: 'GET',
-                url: URL_API.format(t, id),
+                url: get_api("url").format(t, id),
                 headers: {
                     "X-Authorization": TOKEN
                 },
@@ -159,7 +166,7 @@ function UrlJump(id){
 function _search(params){
     $.ajax({
         method: 'GET',
-        url: API + params,
+        url: get_api("search") + params,
         success: function (data) {
             $(".search-progress").hide();
             $(".resource").show();
