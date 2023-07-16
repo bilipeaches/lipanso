@@ -169,9 +169,9 @@ function _search(params){
         url: get_api("search") + params,
         success: function (data) {
             $(".search-progress").hide();
-            $(".resource").show();
             data = JSON.parse(data);
             if(data.resources){
+                $(".resource").show();
                 mdui.snackbar({
                     message: '共搜索到 {0} 个结果'.format(data.total),
                     position: 'left-top',
